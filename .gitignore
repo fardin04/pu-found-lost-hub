@@ -32,7 +32,7 @@ firebase-debug.log*
 ### Environment files
 .env
 .env.*
-!.env.example
+
 
 ### Package archives
 *.tgz
