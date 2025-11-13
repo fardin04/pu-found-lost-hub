@@ -2,12 +2,14 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/components/common/ProtectedRoute"; 
 import { useAuth } from "@/context/AuthContext";
 
-// --- Import your pages (adjust paths according to your folder structure) ---
+// --- Import your pages ---
+import HomePage from "@/pages/HomePage"; // 🏠 Public homepage
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import FeedPage from "@/pages/FeedPage";
 import ProfilePage from "@/pages/ProfilePage";
-import NotFoundPage from "@/pages/NotFoundPage"; // optional fallback
+import PostItemPage from "@/pages/PostItemPage"; // 📝 New post page
+import NotFoundPage from "@/pages/NotFoundPage"; // Optional fallback
 
 export default function App() {
   const { currentUser, loading } = useAuth();
@@ -22,7 +24,15 @@ export default function App() {
 
   return (
     <Routes>
-      {/* 🔓 Public Routes */}
+      {/* 🏠 Public Homepage */}
+      <Route
+        path="/"
+        element={
+          currentUser ? <Navigate to="/feed" replace /> : <HomePage />
+        }
+      />
+
+      {/* 🔓 Public Auth Routes */}
       <Route
         path="/login"
         element={
@@ -38,14 +48,6 @@ export default function App() {
 
       {/* 🔐 Protected Routes */}
       <Route
-        path="/"
-        element={
-          <ProtectedRoute>
-            <FeedPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path="/feed"
         element={
           <ProtectedRoute>
@@ -58,6 +60,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/post"
+        element={
+          <ProtectedRoute>
+            <PostItemPage />
           </ProtectedRoute>
         }
       />
