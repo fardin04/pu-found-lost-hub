@@ -35,13 +35,13 @@ export default function Navbar() {
 
       {/* Center: Title */}
       <div className="flex items-center justify-center">
-        <span className="text-white font-bold text-lg md:text-xl whitespace-nowrap">
+        <span className="text-white font-bold text-lg  md:text-xl whitespace-nowrap">
           PU Found & Lost Hub
         </span>
       </div>
 
       {/* Right: Navigation / Action Buttons */}
-      <nav className="flex gap-3 md:gap-4 items-center justify-self-end">
+      <nav className="flex gap-3 md:gap-1 items-center justify-self-end">
         {!currentUser ? (
           <>
             {/* Guest users - Login and Sign Up buttons */}

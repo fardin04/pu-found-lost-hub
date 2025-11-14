@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
+import Navbar from "@/components/layout/Navbar";
 
 export default function FeedPage() {
   const [posts, setPosts] = useState([]);
@@ -26,27 +27,33 @@ export default function FeedPage() {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen text-pu-blue">
-        Loading posts...
-      </div>
+      <>
+        <Navbar />
+        <div className="flex items-center justify-center h-screen text-secondary">
+          Loading posts...
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-neutral-bg py-8 px-4 md:px-8">
-      <h1 className="text-3xl font-bold text-pu-blue mb-6 text-center">
-        Lost & Found Feed
-      </h1>
+    <>
+      <Navbar />
+      <div className="min-h-screen bg-neutral py-8 px-4 md:px-8">
+        <h1 className="text-3xl font-bold text-pu-blue mb-6 text-center">
+          Found & Lost Feed
+        </h1>
 
-      {posts.length === 0 ? (
-        <p className="text-center text-gray-600">No posts yet. Be the first to post!</p>
-      ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {posts.map((post) => (
-            <PostCard key={post.id} post={post} showActions={false} />
-          ))}
-        </div>
-      )}
-    </div>
+        {posts.length === 0 ? (
+          <p className="text-center text-gray-600">No posts yet. Be the first to post!</p>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols  -3">
+            {posts.map((post) => (
+              <PostCard key={post.id} post={post} showActions={false} />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

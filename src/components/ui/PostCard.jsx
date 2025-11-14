@@ -49,7 +49,7 @@ export default function PostCard({ post, showActions = false }) {
       <div className="p-4">
         {/* Title & Badge */}
         <div className="flex justify-between items-center mb-2">
-          <h3 className="text-lg font-semibold text-pu-blue">{post.title}</h3>
+          <h3 className="text-lg font-semibold text-blue">{post.title}</h3>
           <span
             className={`text-white text-xs font-medium px-2 py-1 rounded-full ${badgeColor.bg}`}
           >
@@ -96,7 +96,7 @@ export default function PostCard({ post, showActions = false }) {
             {post.status !== "RESOLVED" && (
               <button
                 onClick={handleResolve}
-                className="flex-1 py-2 rounded-lg bg-pu-blue text-white font-medium hover:bg-pu-blue-light transition"
+                className="flex-1 py-2 rounded-lg bg-secondary text-white font-medium hover:bg-light transition"
               >
                 Resolve
               </button>

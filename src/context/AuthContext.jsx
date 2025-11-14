@@ -1,140 +1,170 @@
-        import { createContext, useContext, useState, useEffect } from 'react';
-        import {
-            createUserWithEmailAndPassword,
-            signInWithEmailAndPassword,
-            signOut,
-            onAuthStateChanged,
-            sendEmailVerification,
-            sendPasswordResetEmail, // Added for password reset
-        } from 'firebase/auth';
-        import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-        import { auth, db } from '../lib/firebase';
+import { createContext, useContext, useState, useEffect } from 'react';
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    signOut,
+    onAuthStateChanged,
+    sendEmailVerification,
+    sendPasswordResetEmail,
+    GoogleAuthProvider,
+    signInWithPopup,
+} from 'firebase/auth';
 
-        // 1. Create the Context
-        const AuthContext = createContext(null);
+import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db } from '../lib/firebase';
 
-        // 2. Custom Hook to consume the Auth Context easily
-        /* eslint-disable-next-line react-refresh/only-export-components */
-        export function useAuth() {
-            return useContext(AuthContext);
+// 1. Create Context
+const AuthContext = createContext(null);
+
+// 2. Hook
+/* eslint-disable-next-line react-refresh/only-export-components */
+export function useAuth() {
+    return useContext(AuthContext);
+}
+
+// 3. Provider
+export function AuthProvider({ children }) {
+    const [currentUser, setCurrentUser] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    // --- Email/Password Signup ---
+    async function signupUser(email, password, profileData) {
+        setLoading(true);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // Create Firestore user profile
+            const userRef = doc(db, 'users', user.uid);
+            await setDoc(userRef, {
+                uid: user.uid,
+                email: user.email,
+                displayName: profileData.displayName || '',
+                varsityId: profileData.stuId || '',
+                department: profileData.deptName || '',
+                createdAt: serverTimestamp(),
+            });
+
+            // Send verification email
+            await sendEmailVerification(user);
+
+            return userCredential;
+        } catch (error) {
+            console.error("Signup failed:", error);
+            throw error;
+        } finally {
+            setLoading(false);
         }
+    }
 
-        // 3. The Context Provider Component
-        export function AuthProvider({ children }) {
-            const [currentUser, setCurrentUser] = useState(null);
-            const [loading, setLoading] = useState(true);
+    // --- Email Login ---
+    async function loginUser(email, password) {
+        setLoading(true);
+        try {
+            return await signInWithEmailAndPassword(auth, email, password);
+        } catch (error) {
+            console.error("Login failed:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    }
 
-            // --- Core Authentication Functions ---
+    // --- Google Login (NEW) ---
+    async function loginWithGoogle() {
+        setLoading(true);
+        try {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
 
-            /**
-             * Handles full registration:
-             * 1. Creates user in Firebase Auth.
-             * 2. Saves custom profile (varsityId, displayName, department) to Firestore.
-             * 3. Sends email verification link.
-             */
-            async function signupUser(email, password, profileData) {
-                setLoading(true);
-                try {
-                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                    const user = userCredential.user;
+            // Check if Firestore profile exists
+            const userRef = doc(db, "users", user.uid);
+            const snap = await getDoc(userRef);
 
-                    // Save user profile data in Firestore
-                    const userRef = doc(db, 'users', user.uid);
-                    await setDoc(userRef, {
-                        uid: user.uid,
-                        email: user.email,
-                        displayName: profileData.displayName || '',
-                        varsityId: profileData.stuId || '',
-                        department: profileData.deptName || '',
-                        createdAt: serverTimestamp(),
-                    });
-
-                    // Send verification email
-                    await sendEmailVerification(user);
-                    return userCredential;
-                } catch (error) {
-                    console.error("Signup failed:", error);
-                    throw error; // Let the UI handle errors
-                } finally {
-                    setLoading(false);
-                }
-            }
-
-            async function loginUser(email, password) {
-                setLoading(true);
-                try {
-                    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-                    return userCredential;
-                } catch (error) {
-                    console.error("Login failed:", error);
-                    throw error;
-                } finally {
-                    setLoading(false);
-                }
-            }
-
-            async function logoutUser() {
-                setLoading(true);
-                try {
-                    await signOut(auth);
-                    setCurrentUser(null);
-                } catch (error) {
-                    console.error("Logout failed:", error);
-                    throw error;
-                } finally {
-                    setLoading(false);
-                }
-            }
-
-            // --- Added Utility Functions ---
-
-            function verifyEmail() {
-                const user = auth.currentUser || currentUser;
-                if (user) {
-                    return sendEmailVerification(user);
-                }
-                return Promise.reject(new Error("No user is currently logged in to verify."));
-            }
-
-            async function resetPassword(email) {
-                try {
-                    await sendPasswordResetEmail(auth, email);
-                    return true;
-                } catch (error) {
-                    console.error("Password reset failed:", error);
-                    throw error;
-                }
-            }
-
-            // --- Auth State Listener ---
-            useEffect(() => {
-                const unsubscribe = onAuthStateChanged(auth, (user) => {
-                    setCurrentUser(user || null);
-                    setLoading(false);
+            // If first time login, create Firestore profile
+            if (!snap.exists()) {
+                await setDoc(userRef, {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || "",
+                    varsityId: "",
+                    department: "",
+                    createdAt: serverTimestamp(),
                 });
-                return unsubscribe;
-            }, []);
+            }
 
-            // 4. Context Value
-            const value = {
-                currentUser,
-                loading,
-                signupUser,
-                loginUser,
-                logoutUser,
-                verifyEmail,
-                resetPassword, // Added
-            };
-
-            return (
-                <AuthContext.Provider value={value}>
-                    {!loading ? (
-                        children
-                    ) : (
-                        <div className="p-8 text-center text-pu-blue">
-                            Initializing secure connection...
-                        </div>
-                    )}
-                </AuthContext.Provider>
-            );
+            return user;
+        } catch (error) {
+            console.error("Google login failed:", error);
+            throw error;
+        } finally {
+            setLoading(false);
         }
+    }
+
+    // --- Logout Function ---
+    async function logoutUser() {
+        setLoading(true);
+        try {
+            await signOut(auth);
+            setCurrentUser(null);
+        } catch (error) {
+            console.error("Logout failed:", error);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // --- Verify Email ---
+    function verifyEmail() {
+        const user = auth.currentUser || currentUser;
+        if (user) return sendEmailVerification(user);
+        return Promise.reject(new Error("No user logged in."));
+    }
+
+    // --- Reset Password ---
+    async function resetPassword(email) {
+        try {
+            await sendPasswordResetEmail(auth, email);
+            return true;
+        } catch (error) {
+            console.error("Password reset failed:", error);
+            throw error;
+        }
+    }
+
+    // --- Auth Listener ---
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setCurrentUser(user || null);
+            setLoading(false);
+        });
+        return unsubscribe;
+    }, []);
+
+    // 4. Context value
+    const value = {
+        currentUser,
+        loading,
+        signupUser,
+        loginUser,
+        logoutUser,
+        verifyEmail,
+        resetPassword,
+        loginWithGoogle,   // 👈 ADDED HERE
+    };
+
+    return (
+        <AuthContext.Provider value={value}>
+            {!loading ? (
+                children
+            ) : (
+                <div className="p-8 text-center text-pu-blue">
+                    Initializing secure connection...
+                </div>
+            )}
+        </AuthContext.Provider>
+    );
+}

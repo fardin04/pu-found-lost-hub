@@ -5,6 +5,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import toast from "react-hot-toast";
 import { categoryColors } from "@/lib/utils";
+import Navbar from "@/components/layout/Navbar"; // Import Navbar
 
 export default function PostItemPage() {
   const { currentUser } = useAuth();
@@ -85,27 +86,14 @@ export default function PostItemPage() {
   const accentBtn = formData.category === "Found" ? "bg-found-accent hover:bg-amber-600" : "bg-lost-accent hover:bg-red-700";
 
   return (
-    <div className="min-h-screen bg-neutral-bg flex items-center justify-center p-4">
-      <div className={`w-full max-w-lg rounded-2xl shadow-md p-8 border ${accentBg}`}>
-        <h2 className="text-2xl font-semibold text-center text-pu-blue mb-6">
-          Create a Lost / Found Post
+    <div className="min-h-screen bg-neutral-bg flex flex-col">
+      <Navbar /> {/* Add Navbar here */}
+      <div className={`w-full max-w-lg rounded-2xl  shadow-md p-8 border ${accentBg} flex flex-col items-center justify-center mx-auto mt-10 mb-20`}>
+        <h2 className="text-2xl font-semibold text-center text-secondary mb-6">
+          Create a Found / Lost Post
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Item Title</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pu-blue focus:outline-none"
-              placeholder="e.g. Found Blue Bag near Library"
-            />
-          </div>
-
           {/* Category */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
@@ -119,6 +107,20 @@ export default function PostItemPage() {
               <option value="Lost">Lost</option>
             </select>
           </div>
+          {/* Title */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Item Title</label>
+            <input
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-secondary focus:outline-none"
+              placeholder="e.g. Found Blue Bag near Library"
+            />
+          </div>
+
 
           {/* Location */}
           <div>
@@ -129,7 +131,7 @@ export default function PostItemPage() {
               value={formData.location}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pu-blue focus:outline-none"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-secondary focus:outline-none"
               placeholder="Where was it lost/found?"
             />
           </div>
@@ -143,7 +145,7 @@ export default function PostItemPage() {
               onChange={handleChange}
               rows="3"
               required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pu-blue focus:outline-none"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-secondary focus:outline-none"
               placeholder="Briefly describe the item..."
             ></textarea>
           </div>
@@ -157,8 +159,8 @@ export default function PostItemPage() {
               value={formData.contact}
               onChange={handleChange}
               required
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pu-blue focus:outline-none"
-              placeholder="Phone number or email"
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-secondary focus:outline-none"
+              placeholder="Phone number"
             />
           </div>
 
@@ -170,7 +172,7 @@ export default function PostItemPage() {
               name="imageFile"
               accept="image/*"
               onChange={handleChange}
-              className="w-full text-sm text-gray-700 border rounded-lg p-2 focus:ring-2 focus:ring-pu-blue focus:outline-none"
+              className="w-full text-sm text-gray-700 border rounded-lg p-2 focus:ring-2 focus:ring-secondary focus:outline-none"
             />
           </div>
 

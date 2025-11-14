@@ -1,13 +1,13 @@
 "use client";
 import {
+  require_react_dom
+} from "./chunk-6E2ZQB6N.js";
+import {
   createSlot
 } from "./chunk-ED6IS3SD.js";
 import {
   require_jsx_runtime
 } from "./chunk-PITL4B22.js";
-import {
-  require_react_dom
-} from "./chunk-6E2ZQB6N.js";
 import {
   require_react
 } from "./chunk-IGXLOIK6.js";
