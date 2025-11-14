@@ -3,7 +3,8 @@ import { useAuth } from "@/context/AuthContext";
 import { db } from "@/lib/firebase";
 import { doc, updateDoc, deleteDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
-import { categoryColors, formatTimestamp, LazyImage } from "@/lib/utils";
+import { categoryColors, formatTimestamp } from "@/lib/utils";
+import LazyImage from "@/components/LazyImage";
 
 export default function PostCard({ post, showActions = false }) {
   const { currentUser } = useAuth();

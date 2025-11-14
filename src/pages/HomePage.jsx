@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import Button from "@/components/ui/Button";
 import Navbar from "@/components/layout/Navbar";
 
 export default function HomePage() {
@@ -19,17 +19,17 @@ export default function HomePage() {
         }}
       >
         <div className="bg-white/70 backdrop-blur-md p-8 rounded-2xl shadow-md max-w-2xl">
-          <h1 className="text-3xl font-bold text-pu-blue mb-4">
-            Lost or Found Something?
+          <h1 className="text-3xl font-bold text-accent mb-4">
+            Found or Lost Something?
           </h1>
           <p className="text-gray-700 mb-6">
-            Welcome to <span className="font-semibold text-pu-blue">PU Found</span> — 
+            Welcome to <span className="font-semibold text-pu-blue">PU Found & Lost Hub</span> — 
             a community platform for students of Presidency University to 
             report and recover lost items on campus. If you find something or 
             lose your belongings, post here to help connect with others.
           </p>
           <Button
-            className="bg-found-accent hover:bg-amber-500 text-white px-6 py-3 text-lg rounded-xl"
+            className="bg-found-accent hover:bg-accent border text-black px-6 py-3 text-lg rounded-xl"
             onClick={() => navigate("/register")}
           >
             Register Now
@@ -38,8 +38,8 @@ export default function HomePage() {
       </main>
 
       {/* 🔹 Footer (optional) */}
-      <footer className="text-center text-gray-500 py-4 text-sm">
-        © {new Date().getFullYear()} PU Found. All rights reserved.
+      <footer className="bg-black text-center text-white py-4 text-sm">
+        © {new Date().getFullYear()} PU Found & Lost Hub. All rights reserved.
       </footer>
     </div>
   );

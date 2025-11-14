@@ -32,7 +32,7 @@
              * 2. Saves custom profile (varsityId, displayName, department) to Firestore.
              * 3. Sends email verification link.
              */
-            async function signup(email, password, displayName, stuId, deptName) {
+            async function signupUser(email, password, profileData) {
                 setLoading(true);
                 try {
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -43,9 +43,9 @@
                     await setDoc(userRef, {
                         uid: user.uid,
                         email: user.email,
-                        displayName: displayName,
-                        varsityId: stuId,
-                        department: deptName,
+                        displayName: profileData.displayName || '',
+                        varsityId: profileData.stuId || '',
+                        department: profileData.deptName || '',
                         createdAt: serverTimestamp(),
                     });
 
@@ -60,7 +60,7 @@
                 }
             }
 
-            async function login(email, password) {
+            async function loginUser(email, password) {
                 setLoading(true);
                 try {
                     const userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -73,7 +73,7 @@
                 }
             }
 
-            async function logout() {
+            async function logoutUser() {
                 setLoading(true);
                 try {
                     await signOut(auth);
@@ -119,9 +119,9 @@
             const value = {
                 currentUser,
                 loading,
-                signup,
-                login,
-                logout,
+                signupUser,
+                loginUser,
+                logoutUser,
                 verifyEmail,
                 resetPassword, // Added
             };

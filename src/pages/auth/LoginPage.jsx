@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import Navbar from '@/components/layout/Navbar';
 
 // Import Shadcn UI components
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { Card } from '@/components/ui/card';
+import Input from '@/components/ui/Input';
+import Button from '@/components/ui/Button';
+import Label  from '@/components/ui/Label';
+import  Card  from '@/components/ui/Card';
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -33,8 +34,13 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-bg px-4">
-      <Card className="w-full max-w-md p-8 shadow-lg">
+    <div className="min-h-screen bg-neutral-bg">
+      {/* Navbar at the top */}
+      <Navbar />
+      
+      {/* Login form centered */}
+      <div className="flex items-center justify-center px-4 pt-20">
+        <Card className="w-full max-w-md p-8 shadow-lg">
         <h2 className="text-2xl font-bold text-pu-blue mb-6 text-center">
           Login to Your Account
         </h2>
@@ -88,6 +94,7 @@ export default function LoginPage() {
           </span>
         </p>
       </Card>
+      </div>
     </div>
   );
 }

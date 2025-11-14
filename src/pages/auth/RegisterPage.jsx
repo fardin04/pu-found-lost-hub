@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import Navbar from "@/components/layout/Navbar";
 
 export default function RegisterPage() {
   const { signupUser } = useAuth();
@@ -51,8 +52,13 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-neutral-bg p-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
+    <div className="min-h-screen bg-neutral-bg">
+      {/* Navbar at the top */}
+      <Navbar />
+      
+      {/* Registration form centered */}
+      <div className="flex items-center justify-center p-4 pt-20">
+        <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
         <h1 className="text-2xl font-semibold text-center text-pu-blue mb-6">
           Create Your Account
         </h1>
@@ -143,8 +149,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-2 rounded-lg text-white font-medium transition 
-              ${loading ? "bg-gray-400" : "bg-pu-blue hover:bg-pu-blue-light"}`}
+            className={`w-full py-2 rounded-lg text-white font-medium  cursor-pointer transition ${loading ? "bg-gray-400" : "bg-secondary hover:bg-pu-blue-light"}`}
           >
             {loading ? "Registering..." : "Register"}
           </button>
@@ -154,11 +159,12 @@ export default function RegisterPage() {
           Already have an account?{" "}
           <a
             href="/login"
-            className="text-pu-blue hover:text-pu-blue-light font-medium"
+            className="text-blue hover:text-light font-semibold"
           >
             Login
           </a>
         </p>
+      </div>
       </div>
     </div>
   );
