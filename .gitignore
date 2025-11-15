@@ -1,16 +1,16 @@
-### Dependency directories
+# Dependency directories
 node_modules/
 .pnp*
 
-### Build outputs
+# Build outputs
 dist/
 dist-ssr/
 .vite/
 coverage/
 build/
 
-### Logs and runtime files
-logs
+# Logs and runtime files
+logs/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -18,30 +18,28 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 firebase-debug.log*
-*.pid*
+*.pid
 *.seed
 *.pid.lock
 
-### Caches
+# Caches
 .cache/
 .eslintcache
 .stylelintcache
 .parcel-cache/
 .turbo/
 
-### Environment files
+# Environment files (keep .env.sample, ignore real .env files)
 .env
 
-
-
-### Package archives
+# Package archives
 *.tgz
 *.zip
 
-### TypeScript metadata
+# TypeScript metadata
 *.tsbuildinfo
 
-### OS and editor files
+# OS and editor files
 .DS_Store
 Thumbs.db
 *.sw?
@@ -51,15 +49,28 @@ Thumbs.db
 *.sln
 *.iml
 
-### IDE directories
-.vscode/*
+# IDE directories
+.vscode/
 !.vscode/extensions.json
 .idea/
 
-### Firebase local state
+# Firebase local state
 .firebase/
 
-### Misc
+# Misc
 *.local
 tmp/
 temp/
+
+# Ignore generated images/uploads (if any)
+uploads/
+public/uploads/
+static/uploads/
+static/images/
+public/images/
+
+# Ignore Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Ignore Mac system files
+._*
