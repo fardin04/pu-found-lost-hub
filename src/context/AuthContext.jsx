@@ -70,13 +70,26 @@ export function AuthProvider({ children }) {
         }
     }
 
-    // --- Google Login (NEW) ---
+    // --- Google Login (UPDATED) ---
     async function loginWithGoogle() {
         setLoading(true);
         try {
             const provider = new GoogleAuthProvider();
+            
+            // 🔑 SET HOSTED DOMAIN RESTRICTION HERE
+            provider.setCustomParameters({
+                hd: 'student.presidency.edu.bd',
+            });
+            
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
+
+            // Optional Client-Side Check (Defense-in-Depth)
+            if (!user.email || !user.email.endsWith('@student.presidency.edu.bd')) {
+                // If for some reason the restriction fails, immediately sign out and throw an error.
+                await signOut(auth);
+                throw new Error("Authentication failed: Only Presidency student emails are allowed.");
+            }
 
             // Check if Firestore profile exists
             const userRef = doc(db, "users", user.uid);
@@ -97,6 +110,17 @@ export function AuthProvider({ children }) {
             return user;
         } catch (error) {
             console.error("Google login failed:", error);
+            
+            // Handle user-facing error messages for domain restriction
+            if (error.code === 'auth/popup-closed-by-user') {
+                throw error; // Suppress error for simple closing
+            }
+
+            // Provide a clear message if domain restriction likely caused the failure
+            if (error.message.includes('Presidency student emails') || (error.customData && error.customData.email && !error.customData.email.endsWith('@student.presidency.edu.bd'))) {
+                 throw new Error("You must sign in using an email ending in @student.presidency.edu.bd.");
+            }
+            
             throw error;
         } finally {
             setLoading(false);
@@ -153,7 +177,7 @@ export function AuthProvider({ children }) {
         logoutUser,
         verifyEmail,
         resetPassword,
-        loginWithGoogle,   // 👈 ADDED HERE
+        loginWithGoogle,
     };
 
     return (

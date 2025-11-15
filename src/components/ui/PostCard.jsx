@@ -12,7 +12,7 @@ export default function PostCard({ post, showActions = false }) {
   // Badge color based on category using utils
   const badgeColor = categoryColors[post.category] || categoryColors.Found;
 
-  // Handle Resolve action
+  // Handle Resolve action (Logic remains the same)
   const handleResolve = async () => {
     try {
       const postRef = doc(db, "itemPosts", post.id);
@@ -24,7 +24,7 @@ export default function PostCard({ post, showActions = false }) {
     }
   };
 
-  // Handle Delete action
+  // Handle Delete action (Logic remains the same)
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
@@ -37,17 +37,29 @@ export default function PostCard({ post, showActions = false }) {
     }
   };
 
+  // Add this helper variable to check if an image exists
+  const hasImage = post.imageUrl && post.imageUrl.length > 0;
+
   return (
     <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-neutral-200 mb-6">
-      {/* Lazy Loaded Image */}
-      <LazyImage
-        src={post.imageUrl}
-        alt={post.title}
-        className="w-full h-48 object-cover"
-      />
-
+      {/* 🖼️ IMAGE WRAPPER WITH ASPECT RATIO FIX */}
+      {hasImage && (
+        <div className="w-full aspect-video"> {/* <-- Set the container's aspect ratio to 16:9 */}
+          <LazyImage
+            src={post.imageUrl}
+            alt={post.title}
+            className="w-full h-full object-cover" // <-- Image now takes up 100% of the proportional container
+          />
+        </div>
+      )}
+      {!hasImage && (
+        <div className="w-full h-32 bg-gray-200 flex items-center justify-center">
+            <span className="text-gray-500">No Image Available</span>
+        </div>
+      )}
+      
       <div className="p-4">
-        {/* Title & Badge */}
+        {/* Title & Badge (Content remains the same) */}
         <div className="flex justify-between items-center mb-2">
           <h3 className="text-lg font-semibold text-blue">{post.title}</h3>
           <span
@@ -57,6 +69,7 @@ export default function PostCard({ post, showActions = false }) {
           </span>
         </div>
 
+        {/* ... Rest of the post content remains the same ... */}
         {/* Location */}
         {post.location && (
           <p className="text-sm text-gray-600 mb-1">
@@ -96,14 +109,14 @@ export default function PostCard({ post, showActions = false }) {
             {post.status !== "RESOLVED" && (
               <button
                 onClick={handleResolve}
-                className="flex-1 py-2 rounded-lg bg-secondary text-white font-medium hover:bg-light transition"
+                className="flex-1 py-2 rounded-lg bg-secondary text-white font-medium hover:bg-light transition cursor-pointer"
               >
                 Resolve
               </button>
             )}
             <button
               onClick={handleDelete}
-              className={`flex-1 py-2 rounded-lg text-white font-medium transition ${badgeColor.bg} ${badgeColor.hover}`}
+              className={`flex-1 py-2 rounded-lg text-black bg-accent cursor-pointer font-medium transition ${badgeColor.bg} ${badgeColor.hover}`}
             >
               Delete
             </button>

@@ -8,6 +8,7 @@ export default function FeedPage() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // ... (useEffect and loading state logic remain the same)
   useEffect(() => {
     // Firestore query: get all posts ordered by timestamp descending
     const q = query(collection(db, "itemPosts"), orderBy("timestamp", "desc"));
@@ -47,7 +48,8 @@ export default function FeedPage() {
         {posts.length === 0 ? (
           <p className="text-center text-gray-600">No posts yet. Be the first to post!</p>
         ) : (
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols  -3">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl mx-auto"> 
+            {/* <-- UPDATED GRID: 1 column on mobile, 2 on small, 3 on large, 4 on extra-large */}
             {posts.map((post) => (
               <PostCard key={post.id} post={post} showActions={false} />
             ))}
