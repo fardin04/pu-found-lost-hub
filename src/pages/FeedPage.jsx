@@ -3,9 +3,11 @@ import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
 import Navbar from "@/components/layout/Navbar";
-import Loader from "@/components/ui/Loader";   // 🔥 IMPORTED
+import Loader from "@/components/ui/Loader"; 
+import { Helmet } from "react-helmet";
 
 export default function FeedPage() {
+  
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -29,6 +31,10 @@ export default function FeedPage() {
   if (loading) {
     return (
       <>
+      <Helmet>
+        <title>PU Found & Lost Feed - Presidency University</title>
+        <meta name="description" content="See all found and lost items reported by Presidency University students." />
+      </Helmet>
         <Navbar />
         <div className="flex items-center justify-center h-screen bg-neutral">
           <Loader size={50} color="#0D47A1" />

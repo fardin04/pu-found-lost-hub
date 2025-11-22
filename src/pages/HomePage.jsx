@@ -1,11 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/ui/Button";
 import Navbar from "@/components/layout/Navbar";
+import { Helmet } from "react-helmet";
 
 export default function HomePage() {
   const navigate = useNavigate();
 
   return (
+    <>
+    <Helmet>
+            <title>PU Found & Lost Feed - Presidency University</title>
+            <meta name="description" content="See all found and lost items reported by Presidency University students." />
+          </Helmet>
     <div className="min-h-screen bg-neutral-bg flex flex-col">
       {/* 🔹 Navbar Section */}
       <Navbar />
@@ -42,5 +48,6 @@ export default function HomePage() {
         © {new Date().getFullYear()} PU Found & Lost Hub. All rights reserved.
       </footer>
     </div>
+    </>
   );
 }
