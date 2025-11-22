@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { db } from "@/lib/firebase"; // Removed 'storage' import
+import { db } from "@/lib/firebase"; 
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-// Removed Firebase Storage imports: import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import toast from "react-hot-toast";
 import { categoryColors } from "@/lib/utils";
 import Navbar from "@/components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
 
 // --- CLOUDINARY CONFIGURATION ---
-const CLOUDINARY_CLOUD_NAME = 'dzgcqs3ox';
-const CLOUDINARY_UPLOAD_PRESET = 'found_lost_preset';
+const {
+    VITE_CLOUDINARY_NAME,
+    VITE_CLOUDINARY_UPLOAD_PRESET
+} = import.meta.env;
 // ---------------------------------
 
 // --- HELPER FUNCTION: Cloudinary Upload ---
@@ -20,9 +21,9 @@ async function uploadToCloudinary(file) {
     
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+    formData.append('upload_preset', VITE_CLOUDINARY_UPLOAD_PRESET);
 
-    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+    const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${VITE_CLOUDINARY_NAME}/image/upload`;
 
     const response = await fetch(CLOUDINARY_URL, {
         method: 'POST',
@@ -137,7 +138,7 @@ export default function PostItemPage() {
   const accentBg = formData.category === "Found" ? "bg-amber-50 border-amber-400" : "bg-red-50 border-red-400";
   const accentBtn = formData.category === "Found" ? "bg-[#FBBF24] hover:bg-[#F59E0B]" : "bg-[#DC2626] hover:bg-[#B91C1C]";
 
-  // Show message if user is not logged in (remains the same)
+  // Show message if user is not logged in
   if (!currentUser) {
     return (
       <div className="min-h-screen bg-neutral-bg flex flex-col">

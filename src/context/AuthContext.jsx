@@ -12,6 +12,7 @@ import {
 
 import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
+import Loader from "@/components/ui/Loader";   // 🔥 IMPORT LOADER
 
 // 1. Create Context
 const AuthContext = createContext(null);
@@ -70,32 +71,27 @@ export function AuthProvider({ children }) {
         }
     }
 
-    // --- Google Login (UPDATED) ---
+    // --- Google Login ---
     async function loginWithGoogle() {
         setLoading(true);
         try {
             const provider = new GoogleAuthProvider();
-            
-            // 🔑 SET HOSTED DOMAIN RESTRICTION HERE
+
             provider.setCustomParameters({
                 hd: 'student.presidency.edu.bd',
             });
-            
+
             const result = await signInWithPopup(auth, provider);
             const user = result.user;
 
-            // Optional Client-Side Check (Defense-in-Depth)
             if (!user.email || !user.email.endsWith('@student.presidency.edu.bd')) {
-                // If for some reason the restriction fails, immediately sign out and throw an error.
                 await signOut(auth);
                 throw new Error("Authentication failed: Only Presidency student emails are allowed.");
             }
 
-            // Check if Firestore profile exists
             const userRef = doc(db, "users", user.uid);
             const snap = await getDoc(userRef);
 
-            // If first time login, create Firestore profile
             if (!snap.exists()) {
                 await setDoc(userRef, {
                     uid: user.uid,
@@ -110,17 +106,6 @@ export function AuthProvider({ children }) {
             return user;
         } catch (error) {
             console.error("Google login failed:", error);
-            
-            // Handle user-facing error messages for domain restriction
-            if (error.code === 'auth/popup-closed-by-user') {
-                throw error; // Suppress error for simple closing
-            }
-
-            // Provide a clear message if domain restriction likely caused the failure
-            if (error.message.includes('Presidency student emails') || (error.customData && error.customData.email && !error.customData.email.endsWith('@student.presidency.edu.bd'))) {
-                 throw new Error("You must sign in using an email ending in @student.presidency.edu.bd.");
-            }
-            
             throw error;
         } finally {
             setLoading(false);
@@ -180,13 +165,14 @@ export function AuthProvider({ children }) {
         loginWithGoogle,
     };
 
+    // 🔥 SHOW FULL SCREEN LOADER WHILE AUTH INITIALIZES
     return (
         <AuthContext.Provider value={value}>
             {!loading ? (
                 children
             ) : (
-                <div className="p-8 text-center text-pu-blue">
-                    Initializing secure connection...
+                <div className="h-screen flex justify-center items-center bg-pu-blue">
+                    <Loader size={60} color="white" />
                 </div>
             )}
         </AuthContext.Provider>

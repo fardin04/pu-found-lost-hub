@@ -12,7 +12,7 @@ export default function PostCard({ post, showActions = false }) {
   // Badge color based on category using utils
   const badgeColor = categoryColors[post.category] || categoryColors.Found;
 
-  // Handle Resolve action (Logic remains the same)
+  // Handle Resolve action 
   const handleResolve = async () => {
     try {
       const postRef = doc(db, "itemPosts", post.id);
@@ -24,7 +24,7 @@ export default function PostCard({ post, showActions = false }) {
     }
   };
 
-  // Handle Delete action (Logic remains the same)
+  // Handle Delete action 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
@@ -42,13 +42,13 @@ export default function PostCard({ post, showActions = false }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-neutral-200 mb-6">
-      {/* 🖼️ IMAGE WRAPPER WITH ASPECT RATIO FIX */}
+      
       {hasImage && (
-        <div className="w-full aspect-video"> {/* <-- Set the container's aspect ratio to 16:9 */}
+        <div className="w-full aspect-video"> 
           <LazyImage
             src={post.imageUrl}
             alt={post.title}
-            className="w-full h-full object-cover" // <-- Image now takes up 100% of the proportional container
+            className="w-full h-full object-cover" container
           />
         </div>
       )}
@@ -59,7 +59,7 @@ export default function PostCard({ post, showActions = false }) {
       )}
       
       <div className="p-4">
-        {/* Title & Badge (Content remains the same) */}
+        {/* Title & Badge */}
         <div className="flex justify-between items-center mb-2">
           <h3 className="text-lg font-semibold text-blue">{post.title}</h3>
           <span
@@ -69,7 +69,7 @@ export default function PostCard({ post, showActions = false }) {
           </span>
         </div>
 
-        {/* ... Rest of the post content remains the same ... */}
+        
         {/* Location */}
         {post.location && (
           <p className="text-sm text-gray-600 mb-1">

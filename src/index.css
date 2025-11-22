@@ -5,8 +5,6 @@
 
 body {
   font-family: "Inter", sans-serif;
-  /* Use the CSS variable defined in :root instead of Tailwind's theme() helper
-     to avoid runtime resolution issues with the @tailwindcss/vite plugin. */
   background-color: var(--background);
 }
 
@@ -50,7 +48,7 @@ body {
 
 :root {
   /* Main website colors */
-  --blue: #002147;         /* Old PU Blue (keep if needed) */
+  --blue: #002147;         /* Old PU Blue  */
   --light: #013874;   /* Hover/secondary PU Blue */
   --found: #FBBF24;    /* Amber for Found badges/buttons */
   --lost: #DC2626;     /* Red for Lost badges/errors */

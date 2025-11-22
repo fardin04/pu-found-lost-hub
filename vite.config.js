@@ -16,7 +16,7 @@ export default defineConfig({
         extend: {
           colors: {
             // Main website colors
-            'pu-blue': '#002147',         // Old PU Blue (keep if needed)
+            'pu-blue': '#002147',         // Old PU Blue 
             'pu-blue-light': '#013874',   // Hover/secondary PU Blue
             'found-accent': '#FBBF24',    // Amber for Found badges/buttons
             'lost-accent': '#DC2626',     // Red for Lost badges/errors

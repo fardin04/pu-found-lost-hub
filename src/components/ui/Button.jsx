@@ -19,5 +19,5 @@ function Button({
   );
 }
 
-// Default-export the component to satisfy React Fast Refresh.
+
 export default Button

@@ -59,7 +59,7 @@ export default function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="mt-1 placeholder-gray-700" // Adjusted placeholder color
+                className="mt-1 placeholder-gray-700" 
               />
             </div>
             <div className="relative">
@@ -73,10 +73,10 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="mt-1 pr-10 placeholder-gray-100" // Adjusted placeholder color
+                className="mt-1 pr-10 placeholder-gray-100" 
               />
               <span
-                className="absolute right-3 top-9 transform -translate-y-1/2 cursor-pointer text-gray-500" // Centered the icon vertically
+                className="absolute right-3 top-9 transform -translate-y-1/2 cursor-pointer text-gray-500" 
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}

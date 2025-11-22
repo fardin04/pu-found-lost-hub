@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "@/components/common/ProtectedRoute"; 
 import { useAuth } from "@/context/AuthContext";
-
 // --- Import your pages ---
 import HomePage from "@/pages/HomePage"; // 🏠 Public homepage
 import LoginPage from "@/pages/auth/LoginPage";

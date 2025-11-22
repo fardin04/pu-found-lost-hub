@@ -4,6 +4,7 @@ import { db } from "@/lib/firebase";
 import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
 import Navbar from "@/components/layout/Navbar";
+import Loader from "@/components/ui/Loader"; // 🔥 Import Loader
 import toast from "react-hot-toast";
 
 export default function ProfilePage() {
@@ -41,7 +42,6 @@ export default function ProfilePage() {
         setError(err.message);
         setLoading(false);
 
-        // Check if it's an index error
         if (err.code === "failed-precondition") {
           toast.error(
             "Database index required. Please create the composite index in Firebase Console."
@@ -55,20 +55,19 @@ export default function ProfilePage() {
     return () => unsubscribe();
   }, [currentUser]);
 
+  // --- Loading State ---
   if (loading) {
     return (
       <>
         <Navbar />
         <div className="flex items-center justify-center min-h-screen bg-neutral-bg">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[var(--secondary)] mx-auto mb-4"></div>
-            <p className="text-[var(--body-color)]">Loading your posts...</p>
-          </div>
+          <Loader size={50} color="#0D47A1" /> {/* 🔥 Use Loader */}
         </div>
       </>
     );
   }
 
+  // --- Error State ---
   if (error) {
     return (
       <>
@@ -91,6 +90,7 @@ export default function ProfilePage() {
     );
   }
 
+  // --- Not Logged In ---
   if (!currentUser) {
     return (
       <>
@@ -104,6 +104,7 @@ export default function ProfilePage() {
     );
   }
 
+  // --- Normal Render ---
   return (
     <>
       <Navbar />
