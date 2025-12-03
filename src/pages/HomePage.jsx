@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/ui/Button";
-import Navbar from "@/components/layout/Navbar";
 import { Helmet } from "react-helmet";
 
 export default function HomePage() {
@@ -13,8 +12,6 @@ export default function HomePage() {
             <meta name="description" content="See all found and lost items reported by Presidency University students." />
           </Helmet>
     <div className="min-h-screen bg-neutral-bg flex flex-col">
-      {/* 🔹 Navbar Section */}
-      <Navbar />
 
       {/* 🖼️ Hero Section */}
       <main

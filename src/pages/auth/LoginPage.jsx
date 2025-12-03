@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import Navbar from '@/components/layout/Navbar';
 import { toast } from 'react-hot-toast';
-
 // Import Shadcn UI components
 import { Input } from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
@@ -41,7 +40,6 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen bg-neutral">
-      <Navbar />
       <div className="flex items-center justify-center px-4 pt-20">
         <Card className="w-full max-w-md p-8 shadow-lg">
           <h2 className="text-2xl font-bold text-secondary mb-6 text-center">

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import Navbar from "@/components/layout/Navbar";
 import { toast } from 'react-hot-toast';
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
@@ -71,7 +70,6 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-neutral-bg">
-      <Navbar />
 
       <div className="flex items-center justify-center p-4 pt-20">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">

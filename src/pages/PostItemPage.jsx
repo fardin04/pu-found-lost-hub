@@ -4,7 +4,6 @@ import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { categoryColors } from "@/lib/utils";
-import Navbar from "@/components/layout/Navbar";
 import { useNavigate } from "react-router-dom";
 
 // --- CLOUDINARY CONFIGURATION ---
@@ -142,7 +141,6 @@ export default function PostItemPage() {
   if (!currentUser) {
     return (
       <div className="min-h-screen bg-neutral-bg flex flex-col">
-        <Navbar />
         <div className="flex items-center justify-center flex-1">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-[var(--heading-color)] mb-4">

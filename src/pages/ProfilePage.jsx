@@ -3,7 +3,6 @@ import { useAuth } from "@/context/AuthContext";
 import { db } from "@/lib/firebase";
 import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
-import Navbar from "@/components/layout/Navbar";
 import Loader from "@/components/ui/Loader"; // 🔥 Import Loader
 import toast from "react-hot-toast";
 
@@ -71,7 +70,7 @@ export default function ProfilePage() {
   if (error) {
     return (
       <>
-        <Navbar />
+        
         <div className="min-h-screen bg-neutral-bg py-8 px-4 md:px-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-[var(--lost)] mb-4">

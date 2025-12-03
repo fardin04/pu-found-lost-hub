@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
-import Navbar from "@/components/layout/Navbar";
 import Loader from "@/components/ui/Loader"; 
 import { Helmet } from "react-helmet";
 
@@ -45,7 +44,6 @@ export default function FeedPage() {
 
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-neutral py-8 px-4 md:px-8">
         <h1 className="text-3xl font-bold text-pu-blue mb-6 text-center">
           Found & Lost Feed
