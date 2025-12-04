@@ -1,42 +1,42 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "@/context/AuthContext";
-import { toast } from "react-hot-toast";
-// Import Shadcn UI components
-import { Input } from "@/components/ui/Input";
-import Button from "@/components/ui/Button";
-import { Label } from "@/components/ui/Label";
-import { Card } from "@/components/ui/Card";
+  import { useState } from "react";
+  import { useNavigate } from "react-router-dom";
+  import { useAuth } from "@/context/AuthContext";
+  import { toast } from "react-hot-toast";
+  // Import Shadcn UI components
+  import { Input } from "@/components/ui/Input";
+  import Button from "@/components/ui/Button";
+  import { Label } from "@/components/ui/Label";
+  import { Card } from "@/components/ui/Card";
 
-// Import react-icons for eye toggle
-import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+  // Import react-icons for eye toggle
+  import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
-export default function LoginPage() {
-  const navigate = useNavigate();
-  const { loginUser } = useAuth();
+  export default function LoginPage() {
+    const navigate = useNavigate();
+    const { loginUser } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false); // New state for toggle
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false); // New state for toggle
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      setLoading(true);
 
-    try {
-      await loginUser(email, password);
-      toast.success("Login successful! Welcome back!");
-      navigate("/feed"); // Redirect to feed after successful login
-    } catch (err) {
-      const errorMessage =
-        err.message || "Invalid credentials. Please try again.";
-      toast.error(errorMessage);
-      console.error("Login error:", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+      try {
+        await loginUser(email, password);
+        toast.success("Login successful! Welcome back!");
+        navigate("/feed"); // Redirect to feed after successful login
+      } catch (err) {
+        const errorMessage =
+          err.message || "Invalid credentials. Please try again.";
+        toast.error(errorMessage);
+        console.error("Login error:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
     return (
       <div className="min-h-screen bg-neutral">

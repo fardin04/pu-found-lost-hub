@@ -7,6 +7,7 @@ import { useAuth } from "@/context/AuthContext";
 import HomePage from "@/pages/HomePage";
 import LoginPage from "@/pages/auth/LoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
+import VerifyEmailPage from "@/pages/auth/VerifyEmailPage";
 import FeedPage from "@/pages/FeedPage";
 import ProfilePage from "@/pages/ProfilePage";
 import PostItemPage from "@/pages/PostItemPage";
@@ -46,6 +47,20 @@ export default function App() {
           path="/register"
           element={
             currentUser ? <Navigate to="/feed" replace /> : <RegisterPage />
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            currentUser ? (
+              currentUser.emailVerified ? (
+                <Navigate to="/feed" replace />
+              ) : (
+                <VerifyEmailPage />
+              )
+            ) : (
+              <Navigate to="/login" replace />
+            )
           }
         />
 
