@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import { db } from "@/lib/firebase";
-import { collection, query, where, orderBy, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
 import Loader from "@/components/ui/Loader"; // 🔥 Import Loader
 import toast from "react-hot-toast";
@@ -58,7 +64,6 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <>
-        <Navbar />
         <div className="flex items-center justify-center min-h-screen bg-neutral-bg">
           <Loader size={50} color="#0D47A1" /> {/* 🔥 Use Loader */}
         </div>
@@ -70,7 +75,6 @@ export default function ProfilePage() {
   if (error) {
     return (
       <>
-        
         <div className="min-h-screen bg-neutral-bg py-8 px-4 md:px-8">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-[var(--lost)] mb-4">
@@ -93,7 +97,6 @@ export default function ProfilePage() {
   if (!currentUser) {
     return (
       <>
-        <Navbar />
         <div className="min-h-screen bg-neutral-bg py-8 px-4 md:px-8">
           <p className="text-center text-[var(--body-color)]">
             Please log in to view your posts.
@@ -106,7 +109,6 @@ export default function ProfilePage() {
   // --- Normal Render ---
   return (
     <>
-      <Navbar />
       <div className="min-h-screen bg-neutral-bg py-8 px-4 md:px-8">
         <h1 className="text-3xl font-bold text-[var(--heading-color)] mb-6 text-center">
           My Posts

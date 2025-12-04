@@ -30,18 +30,21 @@ export default function Navbar() {
   return (
     <>
       {/* Navbar Header */}
-      <header className="flex justify-between items-center px-6 md:px-12 py-3 bg-accent shadow-sm sticky top-0 z-50">
-        {/* Logo */}
+      <header className="flex justify-between items-center px-4 md:px-12 py-3 bg-accent shadow-sm sticky top-0 z-50 w-full">
+        
+        {/* Logo Section */}
         <div
-          className="flex items-center cursor-pointer"
+          className="flex items-center cursor-pointer gap-2 overflow-hidden" 
           onClick={() => handleNavigation("/")}
         >
           <img
             src="/pu-logo.png"
             alt="PU Logo"
-            className="h-12 w-12 md:h-14 md:w-14 object-contain"
+            /* 1. INCREASED SIZE: h-14 w-14 on mobile (was 12) */
+            className="h-14 w-14 md:h-16 md:w-16 object-contain shrink-0"
           />
-          <span className="ml-2 text-white font-bold text-lg md:text-xl">
+          {/* 2. RESPONSIVE TEXT: text-sm on mobile prevents overlapping */ }
+          <span className="text-white font-bold text-sm sm:text-lg md:text-xl truncate">
             PU Found & Lost Hub
           </span>
         </div>
@@ -66,40 +69,26 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Button
-                variant="ghost"
-                className="text-white hover:bg-white/20 transition"
-                onClick={() => navigate("/feed")}
-              >
+              <Button variant="ghost" className="text-white hover:bg-white/20 transition" onClick={() => navigate("/feed")}>
                 Feed
               </Button>
-              <Button
-                variant="ghost"
-                className="text-white hover:bg-white/20 transition"
-                onClick={() => navigate("/post")}
-              >
+              <Button variant="ghost" className="text-white hover:bg-white/20 transition" onClick={() => navigate("/post")}>
                 Post Item
               </Button>
-              <Button
-                variant="ghost"
-                className="text-white hover:bg-white/20 transition"
-                onClick={() => navigate("/profile")}
-              >
+              <Button variant="ghost" className="text-white hover:bg-white/20 transition" onClick={() => navigate("/profile")}>
                 Profile
               </Button>
-              <Button
-                className="bg-lost-accent hover:bg-red-700 text-white transition"
-                onClick={handleLogout}
-              >
+              <Button className="bg-lost-accent hover:bg-red-700 text-white transition" onClick={handleLogout}>
                 Logout
               </Button>
             </>
           )}
         </nav>
 
-        {/* Mobile Hamburger */}
+        {/* 3. HAMBURGER ICON FIXES */}
+        {/* Added 'shrink-0' so it never gets squashed by the logo */}
         <button
-          className="md:hidden text-white text-3xl focus:outline-none"
+          className="md:hidden text-white text-3xl focus:outline-none shrink-0 ml-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
         >
           {isMobileMenuOpen ? <HiX /> : <HiMenu />}
@@ -149,31 +138,16 @@ export default function Navbar() {
             </>
           ) : (
             <>
-              <Button
-                variant="ghost"
-                className="w-full text-white hover:bg-white/20"
-                onClick={() => handleNavigation("/feed")}
-              >
+              <Button variant="ghost" className="w-full text-white hover:bg-white/20" onClick={() => handleNavigation("/feed")}>
                 Feed
               </Button>
-              <Button
-                variant="ghost"
-                className="w-full text-white hover:bg-white/20"
-                onClick={() => handleNavigation("/post")}
-              >
+              <Button variant="ghost" className="w-full text-white hover:bg-white/20" onClick={() => handleNavigation("/post")}>
                 Post Item
               </Button>
-              <Button
-                variant="ghost"
-                className="w-full text-white hover:bg-white/20"
-                onClick={() => handleNavigation("/profile")}
-              >
+              <Button variant="ghost" className="w-full text-white hover:bg-white/20" onClick={() => handleNavigation("/profile")}>
                 Profile
               </Button>
-              <Button
-                className="w-full bg-lost-accent hover:bg-red-700 text-white mt-4"
-                onClick={handleLogout}
-              >
+              <Button className="w-full bg-lost-accent hover:bg-red-700 text-white mt-4" onClick={handleLogout}>
                 Logout
               </Button>
             </>

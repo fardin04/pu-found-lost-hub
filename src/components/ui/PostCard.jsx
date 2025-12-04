@@ -12,7 +12,7 @@ export default function PostCard({ post, showActions = false }) {
   // Badge color based on category using utils
   const badgeColor = categoryColors[post.category] || categoryColors.Found;
 
-  // Handle Resolve action 
+  // Handle Resolve action
   const handleResolve = async () => {
     try {
       const postRef = doc(db, "itemPosts", post.id);
@@ -24,7 +24,7 @@ export default function PostCard({ post, showActions = false }) {
     }
   };
 
-  // Handle Delete action 
+  // Handle Delete action
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this post?")) return;
     try {
@@ -42,22 +42,22 @@ export default function PostCard({ post, showActions = false }) {
 
   return (
     <div className="bg-white rounded-2xl shadow-md overflow-hidden border border-neutral-200 mb-6">
-      
       {hasImage && (
-        <div className="w-full aspect-video"> 
+        <div className="w-full aspect-video">
           <LazyImage
             src={post.imageUrl}
             alt={post.title}
-            className="w-full h-full object-cover" container
+            className="w-full h-full object-cover"
+            container
           />
         </div>
       )}
       {!hasImage && (
         <div className="w-full h-32 bg-gray-200 flex items-center justify-center">
-            <span className="text-gray-500">No Image Available</span>
+          <span className="text-gray-500">No Image Available</span>
         </div>
       )}
-      
+
       <div className="p-4">
         {/* Title & Badge */}
         <div className="flex justify-between items-center mb-2">
@@ -69,7 +69,6 @@ export default function PostCard({ post, showActions = false }) {
           </span>
         </div>
 
-        
         {/* Location */}
         {post.location && (
           <p className="text-sm text-gray-600 mb-1">

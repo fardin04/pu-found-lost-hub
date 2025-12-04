@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import PostCard from "@/components/ui/PostCard";
-import Loader from "@/components/ui/Loader"; 
+import Loader from "@/components/ui/Loader";
 import { Helmet } from "react-helmet";
 
 export default function FeedPage() {
-  
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,11 +29,13 @@ export default function FeedPage() {
   if (loading) {
     return (
       <>
-      <Helmet>
-        <title>PU Found & Lost Feed - Presidency University</title>
-        <meta name="description" content="See all found and lost items reported by Presidency University students." />
-      </Helmet>
-        <Navbar />
+        <Helmet>
+          <title>PU Found & Lost Feed - Presidency University</title>
+          <meta
+            name="description"
+            content="See all found and lost items reported by Presidency University students."
+          />
+        </Helmet>
         <div className="flex items-center justify-center h-screen bg-neutral">
           <Loader size={50} color="#0D47A1" />
         </div>
@@ -45,12 +46,16 @@ export default function FeedPage() {
   return (
     <>
       <div className="min-h-screen bg-neutral py-8 px-4 md:px-8">
-        <h1 className="text-3xl font-bold text-pu-blue mb-6 text-center">
+       <div className="mt-[-40px]">
+         <h1 className="text-3xl font-bold text-pu-blue mb-6 text-center ">
           Found & Lost Feed
         </h1>
+       </div>
 
         {posts.length === 0 ? (
-          <p className="text-center text-gray-600">No posts yet. Be the first to post!</p>
+          <p className="text-center text-gray-600">
+            No posts yet. Be the first to post!
+          </p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-7xl mx-auto">
             {posts.map((post) => (

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { toast } from 'react-hot-toast';
+import { toast } from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 
@@ -45,7 +45,6 @@ export default function RegisterPage() {
       toast.success("Registration successful!");
 
       navigate("/feed");
-
     } catch (err) {
       toast.error(err.message || "Registration failed.");
       console.error("Registration error:", err);
@@ -70,10 +69,8 @@ export default function RegisterPage() {
 
   return (
     <div className="min-h-screen bg-neutral-bg">
-
       <div className="flex items-center justify-center p-4 pt-20">
         <div className="w-full max-w-md bg-white rounded-2xl shadow-md p-8">
-
           <h1 className="text-2xl font-semibold text-center text-secondary mb-6">
             Create Your Account
           </h1>
@@ -88,11 +85,12 @@ export default function RegisterPage() {
             {googleLoading ? "Connecting..." : "Continue with Google"}
           </button>
 
-          <div className="text-center text-gray-500 my-3">— or create manually —</div>
+          <div className="text-center text-gray-500 my-3">
+            — or create manually —
+          </div>
 
           {/* Manual Signup Form */}
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {/* Full Name */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -196,7 +194,10 @@ export default function RegisterPage() {
           {/* Already have account */}
           <p className="text-center text-sm text-gray-600 mt-4">
             Already have an account?{" "}
-            <a href="/login" className="text-blue hover:text-light font-semibold">
+            <a
+              href="/login"
+              className="text-blue hover:text-light font-semibold"
+            >
               Login
             </a>
           </p>
